@@ -1,238 +1,271 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redspot Car Rental</title>
-    
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    
-    <!-- Animate.css -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redspot Car Rental</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Particles.js -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-    <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: #f8f9fa;
-            overflow-x: hidden;
-        }
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-        /* Hero Section */
-        .hero-section {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, #007bff, #6610f2);
-        }
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
 
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-section h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-        }
-
-        .hero-section p {
-            font-size: 1.3rem;
-            margin-top: 15px;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.2);
-        }
-
-        .hero-section .btn-primary {
-            font-size: 1.2rem;
-            padding: 0.7rem 2rem;
-            border-radius: 50px;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-
-        /* Login Buttons Top Right */
-        .login-buttons {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            z-index: 3;
-        }
-
-        .login-buttons a {
-            margin-left: 10px;
-            font-weight: 600;
-            color: #000 !important; /* Black text */
-        }
-
-        /* Floating Car */
-        .floating-car {
-            position: absolute;
-            bottom: 20px;
-            left: -200px;
-            z-index: 2;
-            width: 250px;
-            animation: floatCar 12s linear infinite;
-        }
-
-        @keyframes floatCar {
-            0% { left: -300px; transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(2deg); }
-            100% { left: 100%; transform: translateY(0) rotate(0deg); }
-        }
-
-        /* Services Section */
-        .services {
-            padding: 80px 15px;
-            background: #fff;
-        }
-
-        .service-card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-        }
-
-        .service-card i {
-            font-size: 3rem;
-            color: #007bff;
-            margin-bottom: 20px;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 25px 0;
-            background: #343a40;
-            color: #fff;
-        }
-
-        /* Center Bootstrap Modal Vertically */
-        .modal-dialog {
-            display: flex;
-            align-items: center;
-            min-height: calc(100% - 1rem);
-        }
-    </style>
+  <meta name="theme-color" content="#0d6efd">
 </head>
 <body>
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-opacity-75 fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">Redspot</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <!-- Login buttons -->
-   <!-- Login buttons -->
-<div class="login-buttons">
-    <a href="{{ route('login.admin') }}" class="btn btn-outline-light animate__animated animate__fadeInDown">
-        Admin Login
-    </a>
-    <a href="{{ route('login.user') }}" class="btn btn-outline-light animate__animated animate__fadeInDown animate__delay-1s">
-        User Login
-    </a>
-    <a href="{{ route('login.employee') }}" class="btn btn-outline-light animate__animated animate__fadeInDown animate__delay-2s">
-        Employee Login
-    </a>
-</div>
+      <div class="collapse navbar-collapse" id="navCollapse">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="#fleet">Our Fleet</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
 
-
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div id="particles-js"></div>
-        <div class="hero-content">
-            <h1 class="animate__animated animate__fadeInDown">🚗 Welcome to Redspot Car Rental</h1>
-            <p class="animate__animated animate__fadeInUp animate__delay-1s">Drive your dream car today with ease and comfort.</p>
-            <a href="{{ route('vehicles.index') }}" class="btn btn-primary mt-4 animate__animated animate__fadeInUp animate__delay-2s">Explore Vehicles</a>
+        <div class="d-flex align-items-center">
+          <!-- Login dropdown -->
+          <div class="dropdown">
+            <button class="btn btn-outline-light dropdown-toggle" type="button" id="loginDropdown" data-bs-toggle="dropdown">
+              <i class="bi bi-box-arrow-in-right"></i> Login
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#adminLoginModal">Admin</a></li>
+              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#staffLoginModal">Staff</a></li>
+              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#customerLoginModal">Customer</a></li>
+            </ul>
+          </div>
         </div>
-        <img src="{{ asset('images/car.png') }}" alt="Floating Car" class="floating-car">
-    </section>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Services Section -->
-    <section class="services container text-center">
-        <h2 class="mb-5 animate__animated animate__fadeInUp">Why Choose Redspot?</h2>
-        <div class="row g-4">
-            <div class="col-md-4 animate__animated animate__fadeInLeft">
-                <div class="card service-card p-4">
-                    <i class="bi bi-speedometer2"></i>
-                    <h5>Fast & Easy Booking</h5>
-                    <p>Book your vehicle in just a few clicks, hassle-free and quick.</p>
-                </div>
-            </div>
-            <div class="col-md-4 animate__animated animate__fadeInUp">
-                <div class="card service-card p-4">
-                    <i class="bi bi-shield-lock"></i>
-                    <h5>Secure Payments</h5>
-                    <p>All transactions are safe and encrypted for your peace of mind.</p>
-                </div>
-            </div>
-            <div class="col-md-4 animate__animated animate__fadeInRight">
-                <div class="card service-card p-4">
-                    <i class="bi bi-people-fill"></i>
-                    <h5>Excellent Support</h5>
-                    <p>24/7 customer support to help you with any questions or issues.</p>
-                </div>
-            </div>
+  <!-- ===== HERO with optional video background ===== -->
+  <header class="hero-section">
+    <!-- OPTIONAL: place a file at public/videos/hero.mp4 for a background video -->
+    <video id="bg-video" class="bg-video" autoplay muted loop playsinline>
+      <source src="{{ asset('videos/hero.mov') }}" type="video/mp4">
+      <!-- fallback to image or color -->
+    </video>
+
+    <div class="overlay"></div>
+
+    <div class="container hero-content">
+      <div class="row align-items-center">
+        <div class="col-md-6 text-white">
+          <h1 class="display-4 animate__animated animate__fadeInDown">Hassle-free car rental. Anytime. Anywhere.</h1>
+          <p class="lead mt-3 animate__animated animate__fadeInUp">Search, book, and get on the road in minutes — secure payments, transparent pricing, modern pickup & return flows.</p>
+
+          <div class="mt-4 animate__animated animate__fadeInUp">
+            <a href="{{ url('/vehicles') }}" class="btn btn-primary btn-lg me-2">Browse Vehicles</a>
+            <a href="#features" class="btn btn-outline-light btn-lg">How it works</a>
+          </div>
+
+          <!-- quick login hint -->
+          <p class="mt-4 text-muted small">Demo logins — Admin: <strong>admin@redspot.com</strong> / password</p>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer>
-        &copy; {{ date('Y') }} Redspot Car Rental. All rights reserved.
-    </footer>
+        <div class="col-md-5 offset-md-1">
+          <!-- Demo feature card -->
+          <div class="card glass-card shadow animate__animated animate__fadeInRight">
+            <div class="card-body">
+              <h5 class="card-title">Instant availability</h5>
+              <p class="card-text">Real-time availability checks prevent double-booking and let staff manage fleet in one place.</p>
+              <ul class="list-unstyled mb-0">
+                <li><i class="bi bi-check2-circle text-success"></i> Fast search</li>
+                <li><i class="bi bi-check2-circle text-success"></i> Secure payments</li>
+                <li><i class="bi bi-check2-circle text-success"></i> Pickup & return logs</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
 
-    <!-- Bootstrap JS -->
-    <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <!-- ===== FEATURES (anchor target) ===== -->
+  <section id="features" class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Why choose Redspot</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="bi bi-speedometer2 feature-icon"></i>
+            <h5>Optimised Fleet</h5>
+            <p>Automated scheduling, maintenance holds and analytics to improve utilisation.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="bi bi-shield-lock feature-icon"></i>
+            <h5>Secure Payments</h5>
+            <p>Stripe-ready tokenised payments and PCI-aware design for safe transactions.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <i class="bi bi-people feature-icon"></i>
+            <h5>Role-based Access</h5>
+            <p>Admin, staff and driver roles with audit logs and controlled permissions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Particles.js Init -->
-    <script>
-        particlesJS("particles-js", {
-            "particles": {
-                "number": { "value": 60 },
-                "color": { "value": "#ffffff" },
-                "shape": { "type": "circle" },
-                "opacity": { "value": 0.5 },
-                "size": { "value": 3 },
-                "move": { "enable": true, "speed": 2 }
-            },
-            "interactivity": {
-                "events": { "onhover": { "enable": true, "mode": "repulse" } }
-            },
-            "retina_detect": true
-        });
-    </script>
+  <!-- ===== FLEET preview (link to vehicles page) ===== -->
+  <section id="fleet" class="py-5 bg-light">
+    <div class="container">
+      <h3 class="mb-4">Our Fleet</h3>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card mb-3">
+            <img src="{{ asset('images/car1.jpg') }}" class="card-img-top" alt="Car">
+            <div class="card-body">
+              <h5 class="card-title">Toyota Corolla</h5>
+              <p class="card-text">Comfortable, fuel-efficient sedan.</p>
+              <a href="{{ url('/vehicles') }}" class="btn btn-outline-primary btn-sm">View fleet</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-3">
+            <img src="{{ asset('images/car2.jpg') }}" class="card-img-top" alt="Car">
+            <div class="card-body">
+              <h5 class="card-title">Hyundai i30</h5>
+              <p class="card-text">Compact hatchback for city driving.</p>
+              <a href="{{ url('/vehicles') }}" class="btn btn-outline-primary btn-sm">View fleet</a>
+            </div>
+          </div>
+        </div>
+        <!-- add more cards as needed -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT/FOOTER ===== -->
+  <footer id="contact" class="py-4 text-center">
+    <div class="container">
+      <small class="text-muted">&copy; {{ date('Y') }} Redspot Car Rental — Demo project</small>
+    </div>
+  </footer>
+
+  <!-- ===== LOGIN MODALS ===== -->
+  @if(session('login_error'))
+    <div class="alert alert-danger text-center mb-0">{{ session('login_error') }}</div>
+  @endif
+
+  <!-- Admin modal -->
+  <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" method="POST" action="{{ url('/login') }}">
+        @csrf
+        <input type="hidden" name="role" value="admin">
+        <div class="modal-header">
+          <h5 class="modal-title">Admin Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input name="email" type="email" class="form-control" required placeholder="admin@redspot.com">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input name="password" type="password" class="form-control" required placeholder="password">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+          <button class="btn btn-primary" type="submit">Sign in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Staff modal -->
+  <div class="modal fade" id="staffLoginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" method="POST" action="{{ url('/login') }}">
+        @csrf
+        <input type="hidden" name="role" value="staff">
+        <div class="modal-header">
+          <h5 class="modal-title">Staff Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input name="email" type="email" class="form-control" required placeholder="staff@example.com">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input name="password" type="password" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+          <button class="btn btn-primary" type="submit">Sign in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Customer modal -->
+  <div class="modal fade" id="customerLoginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" method="POST" action="{{ url('/login') }}">
+        @csrf
+        <input type="hidden" name="role" value="customer">
+        <div class="modal-header">
+          <h5 class="modal-title">Customer Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input name="email" type="email" class="form-control" required placeholder="you@example.com">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input name="password" type="password" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+          <button class="btn btn-primary" type="submit">Sign in</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Hide video if not available or on small devices (optional)
+    document.addEventListener('DOMContentLoaded', function(){
+      const video = document.getElementById('bg-video');
+      if (!video || window.innerWidth < 768) {
+        if (video) video.style.display = 'none';
+        document.querySelector('.overlay').style.opacity = 0.55;
+      }
+    });
+  </script>
 </body>
 </html>
