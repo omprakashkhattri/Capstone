@@ -14,60 +14,70 @@ Route::get('/', fn() => view('home'))->name('home');
 // ============================
 // Admin Authentication
 // ============================
+Route::prefix('admin')->group(function () {
+    // Login
+    Route::get('/login', [AuthController::class, 'adminLogin'])->name('login.admin');
+    Route::post('/login', [AuthController::class, 'adminLoginSubmit'])->name('login.admin.submit');
 
-// Admin Login
-Route::get('/login/admin', [AuthController::class, 'adminLogin'])->name('login.admin');
-Route::post('/login/admin', [AuthController::class, 'adminLoginSubmit'])->name('login.admin.submit');
+    // Forgot Password
+    Route::get('/password/forgot', [AuthController::class, 'adminForgotPassword'])->name('password.request.admin');
+    Route::post('/password/forgot', [AuthController::class, 'adminForgotPasswordSubmit'])->name('password.request.admin.submit');
 
-// Admin Forgot Password
-Route::get('/password/admin/forgot', [AuthController::class, 'adminForgotPassword'])->name('password.request.admin');
-Route::post('/password/admin/forgot', [AuthController::class, 'adminForgotPasswordSubmit'])->name('password.request.admin.submit');
-
-// Admin Dashboard
-Route::get('/admin/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
+    // Dashboard (protected)
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
+    });
+});
 
 
 // ============================
 // User Authentication
 // ============================
+Route::prefix('user')->group(function () {
+    // Login & Registration
+    Route::get('/login', [AuthController::class, 'userLogin'])->name('login.user');
+    Route::post('/login', [AuthController::class, 'userLoginSubmit'])->name('login.user.submit');
 
-// User Login
-Route::get('/login/user', [AuthController::class, 'userLogin'])->name('login.user');
-Route::post('/login/user', [AuthController::class, 'userLoginSubmit'])->name('login.user.submit');
+    Route::get('/register', [AuthController::class, 'userRegister'])->name('register.user');
+    Route::post('/register', [AuthController::class, 'userRegisterSubmit'])->name('register.user.submit');
 
-// User Registration
-Route::get('/register/user', [AuthController::class, 'userRegister'])->name('register.user');
-Route::post('/register/user', [AuthController::class, 'userRegisterSubmit'])->name('register.user.submit');
+    // Forgot Password
+    Route::get('/password/forgot', [AuthController::class, 'userForgotPassword'])->name('password.request.user');
+    Route::post('/password/forgot', [AuthController::class, 'userForgotPasswordSubmit'])->name('password.request.user.submit');
 
-// User Forgot Password
-Route::get('/password/user/forgot', [AuthController::class, 'userForgotPassword'])->name('password.request.user');
-Route::post('/password/user/forgot', [AuthController::class, 'userForgotPasswordSubmit'])->name('password.request.user.submit');
-
-// User Dashboard
-Route::get('/user/dashboard', fn() => view('user.dashboard'))->name('user.dashboard');
+    // Protected Pages
+    Route::middleware('auth')->group(function () {
+        Route::get('/dashboard', fn() => view('user.dashboard'))->name('user.dashboard');
+        Route::get('/profile', fn() => view('user.profile'))->name('user.profile');
+        Route::get('/bookings', fn() => view('user.bookings'))->name('user.bookings');
+        Route::get('/payments', fn() => view('user.payments'))->name('user.payments');
+        Route::get('/vehicles', fn() => view('user.vehicles'))->name('user.vehicles');
+        Route::get('/reviews', fn() => view('user.reviews'))->name('user.reviews');
+        Route::get('/schedule', fn() => view('user.schedule'))->name('user.schedule');
+    });
+});
 
 
 // ============================
 // Employee Authentication (Driver & Staff)
 // ============================
+Route::prefix('employee')->group(function () {
+    // Login
+    Route::get('/login', [EmployeeAuthController::class, 'showLoginForm'])->name('login.employee');
+    Route::post('/login', [EmployeeAuthController::class, 'authenticate'])->name('login.employee.submit');
 
-// Employee Login Page (GET)
-Route::get('/employee/login', [EmployeeAuthController::class, 'showLoginForm'])->name('login.employee');
+    // Forgot & Reset Password
+    Route::get('/forgot-password', [EmployeeAuthController::class, 'showForgotPassword'])->name('employee.forgot-password');
+    Route::post('/forgot-password', [EmployeeAuthController::class, 'sendResetLink'])->name('employee.send-reset-link');
+    Route::get('/reset-password/{token}', [EmployeeAuthController::class, 'showResetForm'])->name('employee.reset-password');
+    Route::post('/reset-password', [EmployeeAuthController::class, 'resetPassword'])->name('employee.reset-password.post');
 
-// Employee Login Submit (POST)
-Route::post('/employee/login', [EmployeeAuthController::class, 'authenticate'])->name('login.employee.submit');
-
-// Employee Forgot Password
-Route::get('/employee/forgot-password', [EmployeeAuthController::class, 'showForgotPassword'])->name('employee.forgot-password');
-Route::post('/employee/forgot-password', [EmployeeAuthController::class, 'sendResetLink'])->name('employee.send-reset-link');
-
-// Employee Reset Password
-Route::get('/employee/reset-password/{token}', [EmployeeAuthController::class, 'showResetForm'])->name('employee.reset-password');
-Route::post('/employee/reset-password', [EmployeeAuthController::class, 'resetPassword'])->name('employee.reset-password.post');
-
-// Employee Dashboards
-Route::get('/employee/driver/dashboard', fn() => view('employee.driver-dashboard'))->name('driver.dashboard');
-Route::get('/employee/staff/dashboard', fn() => view('employee.staff-dashboard'))->name('staff.dashboard');
+    // Dashboards (protected)
+    Route::middleware('auth:employee')->group(function () {
+        Route::get('/driver/dashboard', fn() => view('employee.driver-dashboard'))->name('driver.dashboard');
+        Route::get('/staff/dashboard', fn() => view('employee.staff-dashboard'))->name('staff.dashboard');
+    });
+});
 
 
 // ============================
